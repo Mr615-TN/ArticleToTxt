@@ -1,6 +1,19 @@
 import newspaper
+import sys 
 
-article = newspaper.Article("https://www.42rulesforlife.com/why-i-am-not-a-pacifist")
+if len(sys.argv) != 2:
+    print("Usage: python3 PythonNewspaper.py <url>")
+    sys.exit(1)
+
+url = sys.argv[1]
+
+article = newspaper.Article(url)
 article.download()
 article.parse()
-print(article.text)
+
+title = article.title.replace(" ", "_")
+
+with open(f"{title}.txt", "w") as f:
+    f.write(article.text)
+
+print("Article saved as", title + ".txt")
